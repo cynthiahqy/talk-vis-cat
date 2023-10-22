@@ -1,0 +1,337 @@
+---
+title: "Visualising Category Recoding and Redistributions"
+subtitle: "1st IEEE Workshop on Visualization and \\nProvenance Across Domains at IEEE VIS"
+author: 
+ - name: "Cynthia Huang"
+   email: "supervised by Prof. Rob J Hyndman and Dr. Sarah Goodwin\n"
+institute: "Department of Econometrics and Business Statistics, Monash University"
+date: "2023-10-23"
+bibliography: references.bib
+format: 
+  revealjs: 
+    theme: [default, _extensions/EmilHvitfeldt/letterbox/letterbox.scss, _extensions/numbats/monash/assets/monash.scss]
+    css: [custom.css]
+    include-after-body: _extensions/EmilHvitfeldt/letterbox/theme.html
+    width: 1280
+    height: 720
+    slide-tone: true
+    slide-number: c/t
+    title-slide-attributes: 
+      data-background-image: "_extensions/numbats/monash/images/bg-11.png"
+      data-background-size: "contain"
+      data-background-position: "center"
+filters:
+  - include-code-files
+---
+
+## Overview
+
+::: {.columns .v-center-container}
+::: {.column width="33.33%"}
+
+[Domain Context]{.overview-text}
+![](images/icon-official-stats.png){fig-align="center" height=300px}
+
+[Official Statistics]{.fragment .overview-text}
+:::
+
+::: {.column width="33.33%"}
+[Task Abstraction]{.overview-text}
+![](images/icon-database.png){fig-align="center" height=300px}
+
+[Data Wrangling]{.fragment .overview-text}
+:::
+
+::: {.column width="33.33%"}
+[Encoding Design^[Munzner, Tamara. "A nested model for visualization design and validation." IEEE transactions on visualization and computer graphics 15.6 (2009): 921-928.]]{.overview-text}
+![](images/icon-IEEE-VIS.png){fig-align="center" height=300px}
+
+[Bi-graph Visualisation]{.fragment .overview-text}
+:::
+
+:::
+
+<!-- [spacer]{style="visibility: hidden; transform: rotate(90deg);"} -->
+
+
+
+# Domain Context
+
+## Ex-Post Harmonisation (a non-technical definition)
+
+```{r}
+#| label: set-up-anzsco
+#| echo: false
+#| message: false
+#| file: includes/anzsco-example.R
+```
+
+- Combining **semantically related** data collected under **different taxonomies** into a single analysis dataset.
+
+. . .
+
+::: {.smaller}
+```{r}
+## stylised occupation counts 
+## from total of 2000 observed individuals
+dplyr::left_join(table_anzsco, anzsco22_stats) |> 
+  kableExtra::kable()
+```
+:::
+
+<!-- - Involves different taxonomies across observational units (space, time etc.) -->
+<!-- - Examples from Official Statistics:
+  -   **Labour Statistics:** adding and deleting occupation codes
+  -   **Census and Election Data:** changing statistical survey areas or electoral boundaries -->
+
+<!-- > Ex-post (or retrospective) data harmonization refers to procedures applied to already collected data to improve the comparability and inferential equivalence of measures from different studies [@kolczynska2022; @fortierMaelstromResearchguidelines2016; @ehlingHarmonisingDataOfficial2003] -->
+
+## Why Ex-Post Harmonisation? {visibility="hidden"}
+
+![](images/3MT-slide-final-faculty.png){fig-align="center"}
+
+::: notes
+- **Common (and time-consuming) task** in social science research
+- Downstream **analysis results depend on category mapping decisions**, but this is not currently systematically explored
+- Ex-Post Harmonisation is **complex data imputation** disguised as data pre-processing drudgery
+:::
+
+# Task Abstraction
+
+## Cross-Taxonomy Transformations
+
+![](images/diagram_expost-tasks.png){fig-align="center"}
+
+## Existing Approaches
+
+::: notes
+before / after approach
+:::
+
+::: {.columns}
+::: {.column width="45%"}
+![](images/diagram-data-transform-script-v2.png){fig-align="center" height=400px style="margin: 0; padding: 0; "}
+
+::: incremental
+
+- idiosyncratic coding scripts
+- ad-hoc validation
+
+::: 
+:::
+::: {.column width="55%"}
+::: {.fragment}
+
+```{.r}
+split_isiccomb <- function(threefour_df){
+  #' Helper function to split isiccomb values across isic codes
+  #' @param threefour_df df with 3/4 digit values across isic & isiccomb
+  
+  # make list for interim tables
+  interim <- list()
+  
+  # extract rows with isiccomb codes
+  interim$isiccomb.rows <- 
+    threefour_df %>%
+    filter(., str_detect(isiccomb, '[:alpha:]'))
+  
+  # test that we are not losing any data through spliting
+  test_that("No `country,year` has more than one recorded `value` per `isiccomb` group", {
+    rows_w_many_values_per_isiccomb <- 
+      interim$isiccomb.rows %>%
+      group_by(country, year, isiccomb) %>%
+      ## get  no of recorded (not NA) values for given `country, year, isiccomb` 
+      summarise(n_obs = sum(!is.na(value))) %>% 
+      filter(n_obs != 1) %>%
+      nrow()
+    expect_true(rows_w_many_values_per_isiccomb == 0)
+  })
+  
+  # calculate average value over isiccomb group for each country, year
+  interim$isiccomb.avg <- 
+    interim$isiccomb.rows %>%
+    # group isiccomb rows, replace na with 0 for averaging
+    group_by(country, year, isiccomb) %>%
+    mutate(value = replace_na(value,0)) %>%
+    # split combination value over standard isic codes in isiccomb group
+    summarise(avg.value = mean(value),
+              ## checking variables
+              n_isic = n_distinct(isic),
+              n_rows = n()) %>%
+    mutate(row_check = (n_isic == n_rows))
+  
+  #  return(interim$isiccomb.avg)
+  
+  ## check n_isic == n_rows
+  test_that("isiccomb split average is calculated with correct denominator", {
+    expect_true(all(interim$isiccomb.avg$row_check))
+  })
+  
+  # output processed data
+  final <-
+    left_join(threefour_df, interim$isiccomb.avg, by = c('country', 'year', 'isiccomb')) %>%
+    rename(value.nosplit = value) %>%
+    mutate(value = coalesce(avg.value, value.nosplit),
+           split.isiccomb = !is.na(avg.value)) %>%
+    select(country, year, isic, isiccomb, value, value.nosplit, split.isiccomb) # not checking variables
+  
+  return(final)
+}
+```
+:::
+
+:::
+:::
+
+## Aside on discipline silos
+
+::: columns
+::: {.column .smaller width="50%"}
+> Of course, **some desired integrations are simply unattainable.** Consider changes to category schemas … the North American Industrial Classification System (NAICS) … replaced the previously used (and increasingly antiquated) Standard Industrial Code (SIC). The dramatic reorganization … leaves them nearly incomparable … **Sometimes there is a limit to what one can wrangle. **^[Kandel et al. (2011). **Research directions in data wrangling: Visualizations and transformations for usable and credible data.** *Information Visualization*, 10(4), 271-288.]
+
+:::
+
+::: {.column width="50%"}
+
+::: {.fragment}
+
+``` {.stata include="includes/schott_algorithm_28.do" filename="schott_algorithm_28.do [800+ lines]"}
+```
+:::
+
+:::
+:::
+
+# Proposed Contributions
+
+## Proposed Crossmaps Approach
+
+```{r}
+#| label: setup-simple-xmap
+#| echo: false
+#| message: false
+#| file: includes/simple-xmap-plots.R
+```
+
+::: {.columns}
+::: {.column width="45%"}
+![](images/diagram-data-transform-xmap-v2.png){fig-align="center" height=400px style="margin: 0; padding: 0"}
+
+:::{.incremental}
+
+- standardised mapping object
+- validate via graph properties
+
+::: 
+:::
+
+::: {.column width="55%"}
+
+:::{.incremental}
+
+[Equivalent representations:]{.fragment}
+
+- **Bi-Partite Graph**: source nodes, target nodes + weighted edges
+
+- **Adjacency Matrix**: has the same constraints as a markov chain transition matrix
+
+- **Edge List**: apply transformation using database join, mutate and summarise operations.
+
+:::
+
+:::
+:::
+
+
+## Proposed visualisation (and encodings)
+
+::: {.columns}
+::: {.column width="45%"}
+![](images/plot-anzsco-isco-bigraph.png)
+:::
+::: {.column width="55%"}
+
+[Highlight transformation attributes:]{.fragment}
+
+:::{.incremental}
+- split vs. not split: 
+  - text style, line style, **layout/ordering**
+- split proportion: 
+  - text labels on links
+- target composition:
+  - line style, colour saturation, **layout/ordering**
+:::
+
+:::
+:::
+
+## Discussion
+
+::: {.incremental}
+
+- **Why abstract (and visualise) cross-taxonomy transformations?**
+  - Document data provenance at task level rather than dataset level
+  - Validate data quality. Audit and reuse data wrangling code
+  - Explore statistical properties and imputation metrics
+
+- **How to scale up via existing graph and visualisation idioms?**
+  - Interactivity (e.g. tooltips for category description labels)
+  - Filter by graph properties (e.g. leave out one-to-unique links)
+  - Aggregate/Collapse/Embed sub-graphs (e.g. one-to-shared links) or sequential/concurrent transformations
+  
+:::
+
+# Appendix
+
+## Current Work: Imputation metrics and imprints
+
+::: columns
+::: {.column width="60%"}
+![](images/isiccomb_rev3_TRUEonly.png){fig-align="left"}
+:::
+
+::: {.column width="40%"}
+- How much of an ex-post harmonised dataset is imputed?
+- Which transformed observations are less reliable?
+- Can we quantify the degree of imputation?
+:::
+:::
+
+## Cross-taxonomy transformation via database operations
+
+-   Transformations always involves **recoding category labels**:
+    -   [`111212: Defence Force Senior Officer --> 0110: Commissioned armed forces officers`]{style="font-size: 0.6em"}
+-   In addition to these **character transformations**, **numeric transformation** can include:
+    -   "pass-through" of numeric values -- i.e. one-to-unique relations
+    -   numeric aggregation -- i.e. one-to-shared relations
+    -   numeric redistribution -- i.e. one-to-many relations
+
+## Cross-taxonomy transformation via database operations
+
+We can encompass the string and numeric operations in the following tabular operations:
+
+::: {layout-ncol="2"}
+1.  **Rename** original categories into target categories
+2.  **Multiply** source node values by link weight.
+3.  **Summarise** mutated values by target node.
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: "3-6|7|8,9"
+## mock up of apply_xmap()
+apply_xmap <- function(.data, .xmap) {
+    dplyr::left_join(
+        x = .data,
+        y = .xmap,
+        by = "anzsco22") |>
+        dplyr::mutate(part_count = count * weights) |>
+        dplyr::group_by(isco8) |>
+        dplyr::summarise(new_count = sum(part_count))
+}
+```
+:::
+
+
+<!-- > Tackling domain applications via mathematical abstractions can create useful derived data for visual encoding
+> Information visualisation can be used to expore and communicate complex data wrangling decisions -->
