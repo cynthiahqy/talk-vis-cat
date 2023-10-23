@@ -1,0 +1,4 @@
+- source: slides.qmd
+  quarto-pub:
+    - id: 24740bef-8c31-46a1-a4f3-82ecc1f8c953
+      url: 'https://cynthiahuang.quarto.pub/vis-prov'

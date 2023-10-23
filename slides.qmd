@@ -14,7 +14,6 @@ format:
     include-after-body: _extensions/EmilHvitfeldt/letterbox/theme.html
     width: 1280
     height: 720
-    slide-tone: true
     slide-number: c/t
     title-slide-attributes: 
       data-background-image: "_extensions/numbats/monash/images/bg-11.png"
@@ -32,7 +31,7 @@ filters:
 [Domain Context]{.overview-text}
 ![](images/icon-official-stats.png){fig-align="center" height=300px}
 
-[Official Statistics]{.fragment .overview-text}
+[Official Statistics+]{.fragment .overview-text}
 :::
 
 ::: {.column width="33.33%"}
