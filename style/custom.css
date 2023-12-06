@@ -36,3 +36,20 @@
 .smaller {
   font-size: 0.8em;
 }
+
+.reveal 
+  .quarto-title-block {
+    .title {
+      font-size: 2em;
+    }
+  }
+ 
+.reveal
+  .quarto-title-block {
+    #title-slide-text {
+      float: left;
+      width: 73%;
+      margin-top: 10%;
+      /* border: 1px solid green; */
+    }
+  }

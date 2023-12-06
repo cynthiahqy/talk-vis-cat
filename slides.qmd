@@ -1,24 +1,28 @@
 ---
 title: "Visualising Category Recoding and Redistributions"
-subtitle: "1st IEEE Workshop on Visualization and \\nProvenance Across Domains at IEEE VIS"
+subtitle: "Workshop on Visualization and Provenance Across Domains at IEEE VIS on Oct 22, 2023"
 author: 
- - name: "Cynthia Huang"
-   email: "supervised by Prof. Rob J Hyndman and Dr. Sarah Goodwin\n"
-institute: "Department of Econometrics and Business Statistics, Monash University"
-date: "2023-10-23"
+ - name: "Cynthia A. Huang"
+   email: "cynthia.huang@monash.edu"
+   affiliation:
+    - "Department of Econometrics and Business Statistics, Monash University"
+    - "supervised by Prof. Rob J Hyndman and Dr. Sarah Goodwin"
+doi: "arXiv:2308.06535"
 bibliography: references.bib
 format: 
   revealjs: 
     theme: [default, _extensions/EmilHvitfeldt/letterbox/letterbox.scss, _extensions/numbats/monash/assets/monash.scss]
-    css: [custom.css]
+    css: [style/custom.css]
     include-after-body: _extensions/EmilHvitfeldt/letterbox/theme.html
     width: 1280
     height: 720
     slide-number: c/t
     title-slide-attributes: 
-      data-background-image: "_extensions/numbats/monash/images/bg-11.png"
+      data-background-image: "_extensions/numbats/monash/images/bg-02.png"
       data-background-size: "contain"
       data-background-position: "center"
+    template-partials:
+      - style/title-slide.html
 filters:
   - include-code-files
 ---
@@ -187,6 +191,10 @@ split_isiccomb <- function(threefour_df){
 ::: columns
 ::: {.column .smaller width="50%"}
 > Of course, **some desired integrations are simply unattainable.** Consider changes to category schemas … the North American Industrial Classification System (NAICS) … replaced the previously used (and increasingly antiquated) Standard Industrial Code (SIC). The dramatic reorganization … leaves them nearly incomparable … **Sometimes there is a limit to what one can wrangle. **^[Kandel et al. (2011). **Research directions in data wrangling: Visualizations and transformations for usable and credible data.** *Information Visualization*, 10(4), 271-288.]
+
+::: {.fragment}
+Did Schott and Pierce do the unattainable?
+:::
 
 :::
 
