@@ -58,6 +58,11 @@
   font-size: 50%;
 }
 
-#big-source-code {
+.big-source-code {
   font-size: 2em;
+}
+
+/* for making the source code div shorter */
+#short-r .sourceCode .numberSource .r {
+  height: 150px
 }

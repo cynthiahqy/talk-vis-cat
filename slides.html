@@ -446,10 +446,11 @@ Cynthia A. Huang
 <li>Ex-Post Harmonisation</li>
 <li>Occupation Codes (ANZSCO22) Example</li>
 </ul>
-<h3 id="proposed-task-abstraction-visualisation">Proposed Task Abstraction &amp; Visualisation</h3>
+<h3 id="proposed-contributions">Proposed Contributions</h3>
 <ul>
-<li>Cross-Taxonomy Transformation and Crossmaps</li>
-<li>Crossmap Visualisations</li>
+<li>Cross-Taxonomy Transformation</li>
+<li>Crossmap Information Structure</li>
+<li>Crossmap <strong>Visualisations</strong></li>
 </ul>
 <h3 id="implications-and-future-work">Implications and Future Work</h3>
 <ul>
@@ -502,7 +503,7 @@ Cynthia A. Huang
 <p><img data-src="images/icon-IEEE-VIS.png" height="200"></p>
 </figure>
 </div>
-<p><strong>Documenting and communicating the chosen data transformations</strong>.</p>
+<p><strong>Documenting and analysing the implemented mappings</strong>.</p>
 </div>
 </div>
 <aside class="notes">
@@ -592,13 +593,26 @@ Cynthia A. Huang
 </section>
 <section id="example-harmonisation-23" class="slide level2">
 <h2>Example Harmonisation <span class="f50">2/3</span></h2>
+<aside class="notes">
 <ul>
 <li>Data collected using the <strong>Australian and New Zealand Standard Classification of Occupations (ANZSCO)</strong> is not directly comparable with other countries</li>
 <li>Harmonise using the <strong>International Standard Classification of Occupations (ISCO)</strong>.</li>
 </ul>
-<div class="fragment quarto-layout-panel">
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><strong>Australian and New Zealand Standard Classification of Occupations (ANZSCO)</strong></p>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
   anzsco22 anzsco22_descr                      
@@ -612,6 +626,7 @@ Cynthia A. Huang
 </div>
 </div>
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><strong>International Standard Classification of Occupations (ISCO)</strong></p>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   isco8 isco8_descr                                       
@@ -649,33 +664,47 @@ Cynthia A. Huang
 </div>
 </section></section>
 <section>
-<section id="proposed-task-abstraction-visualisation-1" class="title-slide slide level1 center">
-<h1>Proposed Task Abstraction &amp; Visualisation</h1>
-<p>What are the important features of the data transformation task?</p>
+<section id="data-task-abstraction-encapsulation" class="title-slide slide level1 center">
+<h1>Data Task Abstraction &amp; Encapsulation</h1>
+<p>Can we define harmonisation tasks to be easier to visualise and examine?</p>
 </section>
 <section id="cross-taxonomy-transformation" class="slide level2">
 <h2>Cross-Taxonomy Transformation</h2>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>A Working Definition</strong></p>
-</div>
-<div class="callout-content">
+<div class="columns v-center-container">
+<div class="column" style="width:45%;">
+<h3 id="a-working-definition">A Working Definition</h3>
+<blockquote>
 <p>Taking data collected under a <strong>source taxonomy</strong>, and transforming them into “counter-factual” observations <strong>indexed by a target taxonomy</strong>.</p>
+</blockquote>
+</div><div class="column" style="width:55%;">
+<div class="quarto-figure quarto-figure-center" style="margin: 0; padding: 0">
+<figure>
+<p><img data-src="images/diagram_cross-tax.png" height="300"></p>
+</figure>
 </div>
 </div>
 </div>
-<div>
+
+<aside class="notes">
 <ul>
-<li class="fragment"><strong>Source/Target Taxonomy:</strong> a set of classification codes or categories</li>
-<li class="fragment"><strong>Taxonomy Indexed Values</strong>: a set of (numeric) values indexed by a taxonomy</li>
-<li class="fragment"><strong>Observation:</strong> A set of taxonomy indexed values for a given unit of observation (e.g. <a href="#/example-harmonisation-13">Table&nbsp;1</a> represents the country, year <code>AUS-2022</code>)</li>
+<li><strong>Source/Target Taxonomy:</strong> a set of classification codes or categories</li>
+<li><strong>Taxonomy Indexed Values</strong>: a set of (numeric) values indexed by a taxonomy</li>
+<li><strong>Observation:</strong> A set of taxonomy indexed values for a given unit of observation (e.g. <a href="#/example-harmonisation-13">Table&nbsp;1</a> represents the country, year <code>AUS-2022</code>)</li>
 </ul>
-</div>
-</section>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<aside><div>
+<p>NB: The terms taxonomy, classification and nomenclature are used interchangeably</p>
+</div></aside></section>
 <section id="existing-implementations" class="slide level2">
 <h2>Existing Implementations</h2>
 <aside class="notes">
@@ -700,12 +729,13 @@ Cynthia A. Huang
 </div>
 </div><div class="column" style="width:55%;">
 <div class="fragment">
-<p>Given a defined mapping, we still need to <strong>implement</strong> the transformation.</p>
+<p>Given a desired mapping, we still need to <strong>implement</strong> the transformation.</p>
 <div>
 <ul>
 <li class="fragment">idiosyncratic coding scripts</li>
 <li class="fragment">re-use limited by script readability and language</li>
 <li class="fragment">ad-hoc and incomplete quality validation</li>
+<li class="fragment"><strong>difficult to visualise</strong> and explore transformation logic</li>
 </ul>
 </div>
 </div>
@@ -732,9 +762,408 @@ Cynthia A. Huang
 </div>
 </div>
 </div>
+</section></section>
+<section>
+<section id="crossmaps" class="title-slide slide level1 center">
+<h1>Crossmaps</h1>
+<p>A new information structure for specifying, validating, implementing and visualising cross-taxonomy transformations.</p>
 </section>
-<section id="equivalent-representations" class="slide level2">
-<h2>Equivalent Representations</h2>
+<section id="crossmaps-equivalent-representations" class="slide level2">
+<h2>Crossmaps: Equivalent Representations</h2>
+<div class="columns">
+<div class="column" style="width:33%;">
+<h4 id="weighted-bi-partite-graph">Weighted Bi-Partite Graph</h4>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-6-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:33%;">
+<h4 id="transition-bi-adjacency-matrix">Transition / Bi-Adjacency Matrix</h4>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-7-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<!-- conditional on coord-fixed; panels fill the fig size (centered vert&hori (check this)) -->
+</div><div class="column" style="width:33%;">
+<h4 id="edge-list-table-adjacency-list">Edge List Table / Adjacency List</h4>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table" data-quarto-postprocess="true" style="font-size: 25px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">from</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">to</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">weights</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">a</td>
+<td style="text-align: left;">AA</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">b</td>
+<td style="text-align: left;">AA</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">c</td>
+<td style="text-align: left;">AA</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">d</td>
+<td style="text-align: left;">BB</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">e</td>
+<td style="text-align: left;">CC</td>
+<td style="text-align: right;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f</td>
+<td style="text-align: left;">DD</td>
+<td style="text-align: right;">0.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">f</td>
+<td style="text-align: left;">EE</td>
+<td style="text-align: right;">0.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f</td>
+<td style="text-align: left;">FF</td>
+<td style="text-align: right;">0.4</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
+</div>
+
+<aside><div>
+<p><em>See Appendix for further details.</em></p>
+</div></aside></section>
+<section id="crossmaps-as-linear-mappings" class="slide level2">
+<h2>Crossmaps as Linear Mappings</h2>
+<div class="columns">
+<div class="column" style="padding: 0; margin: 0">
+<!--- control the white space around abc_matrix by specifying quarto fig dimensions --->
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-9-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><span class="citation" data-cites="hulligerLinkingClassificationsLinear1998">Hulliger (<a href="#/references-acknowledgements" role="doc-biblioref" onclick="">1998</a>)</span> formulates links between statistical classifications as linear mappings and shows:</p>
+<div>
+<ul>
+<li class="fragment">transforming data from one classification to another can be implemented as matrix multiplication.</li>
+<li class="fragment">multiple sequential classification changes can be described as matrix products.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="data-transformation-using-crossmaps" class="slide level2">
+<h2>Data Transformation using Crossmaps</h2>
+<aside class="notes">
+<p>shows that matrix multiplication can be implemented using database join, mutate and summarise operations.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="citation" data-cites="zhouMatrixMultiplicationSQL2020">Zhou and Ordonez (<a href="#/references-acknowledgements" role="doc-biblioref" onclick="">2020</a>)</span> shows that matrix multiplication can be implemented using SQL operations on edge lists.</p>
+<div class="smaller">
+<p><span class="fragment">Thus implementation can be done as a two-input function which:</span></p>
+<ol type="1">
+<li class="fragment"><strong>Validates</strong> transformation logic</li>
+<li class="fragment">Checks the crossmap <strong>fully covers</strong> the source data</li>
+<li class="fragment"><strong>Transforms</strong> the data using join, mutate and summarise operations (see Appendix)</li>
+</ol>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>anzsco22_stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  anzsco22 count
+  &lt;chr&gt;    &lt;dbl&gt;
+1 111111    1000
+2 111211     500
+3 111212      40
+4 111311     300
+5 111312     150
+6 111399      10</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply_xmap</span>(<span class="at">.data =</span> anzsco22_stats,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>           <span class="at">.xmap =</span> anzsco_xmap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  isco8 new_count
+  &lt;chr&gt;     &lt;dbl&gt;
+1 0110         40
+2 1111        460
+3 1112        500
+4 1114        500
+5 1120        500</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="crossmap-visualisations-bi-graphs" class="slide level2">
+<h2>Crossmap Visualisations: Bi-Graphs</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-12-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>Use visual channels such as <strong>layout/ordering, text style, line style, colour saturation, and annotations</strong> to highlight key preprocessing decisions:</p>
+<div>
+<ul>
+<li class="fragment">which data are split vs.&nbsp;not split?</li>
+<li class="fragment">what are the <strong>split proportions</strong>?</li>
+<li class="fragment">what is the <strong>composition</strong> of the transformed data?</li>
+</ul>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="implications-future-work" class="title-slide slide level1 center">
+<h1>Implications &amp; Future Work</h1>
+<p>What else can the crossmap approach reveal or illuminate?</p>
+</section>
+<section id="tracking-and-quantifying-data-imputation" class="slide level2">
+<h2>Tracking and Quantifying Data Imputation</h2>
+<aside class="notes">
+<ul>
+<li>when and where does the imputation occur?</li>
+<li>how much imputation occurs?</li>
+<li>solving the visualisation problem is akin to solving the imputation quantification problem</li>
+<li>Which transformed observations are less reliable?</li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div>
+<ul>
+<li class="fragment">Valid transformation logic doesn’t guarantee the quality or usability of transformed data</li>
+<li class="fragment">Crossmaps allow us to <strong>visualise</strong> the extent and <strong>quantify</strong> the degree of imputation</li>
+<li class="fragment">We can also <strong>extract</strong> transformation logic from existing scripts</li>
+</ul>
+</div>
+</div><div class="fragment column" style="width:50%;">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="images/plot-isiccomb-by-income-groups.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comprehension-of-preprocessing-decisions" class="slide level2">
+<h2>Comprehension of Preprocessing Decisions</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:50%;">
+<div id="short-r">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>isic-non-std-split.R [59 lines]</strong></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># function: split values between isic code in isiccomb group</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>split_isiccomb <span class="ot">&lt;-</span> <span class="cf">function</span>(threefour_df) {</span>
+<span id="cb7-3"><a href="#cb7-3"></a>    <span class="co">#' Helper function to split isiccomb values across isic codes</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>    <span class="co">#' @param threefour_df df with 3/4 digit values across isic &amp; isiccomb</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a>    <span class="co"># make list for interim tables</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>    interim <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a>    <span class="co"># extract rows with isiccomb codes</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>    interim<span class="sc">$</span>isiccomb.rows <span class="ot">&lt;-</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>        threefour_df <span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>        <span class="fu">filter</span>(., <span class="fu">str_detect</span>(isiccomb, <span class="st">"[:alpha:]"</span>))</span>
+<span id="cb7-13"><a href="#cb7-13"></a></span>
+<span id="cb7-14"><a href="#cb7-14"></a>    <span class="co"># test that we are not losing any data through spliting</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>    <span class="fu">test_that</span>(<span class="st">"No `country,year` has more than one recorded `value` per `isiccomb` group"</span>, {</span>
+<span id="cb7-16"><a href="#cb7-16"></a>        rows_w_many_values_per_isiccomb <span class="ot">&lt;-</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>            interim<span class="sc">$</span>isiccomb.rows <span class="sc">%&gt;%</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>            <span class="fu">group_by</span>(country, year, isiccomb) <span class="sc">%&gt;%</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>            <span class="do">## get  no of recorded (not NA) values for given `country, year, isiccomb`</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>            <span class="fu">summarise</span>(<span class="at">n_obs =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(value))) <span class="sc">%&gt;%</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a>            <span class="fu">filter</span>(n_obs <span class="sc">!=</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a>            <span class="fu">nrow</span>()</span>
+<span id="cb7-23"><a href="#cb7-23"></a>        <span class="fu">expect_true</span>(rows_w_many_values_per_isiccomb <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb7-24"><a href="#cb7-24"></a>    })</span>
+<span id="cb7-25"><a href="#cb7-25"></a></span>
+<span id="cb7-26"><a href="#cb7-26"></a>    <span class="co"># calculate average value over isiccomb group for each country, year</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a>    interim<span class="sc">$</span>isiccomb.avg <span class="ot">&lt;-</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a>        interim<span class="sc">$</span>isiccomb.rows <span class="sc">%&gt;%</span></span>
+<span id="cb7-29"><a href="#cb7-29"></a>        <span class="co"># group isiccomb rows, replace na with 0 for averaging</span></span>
+<span id="cb7-30"><a href="#cb7-30"></a>        <span class="fu">group_by</span>(country, year, isiccomb) <span class="sc">%&gt;%</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a>        <span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">replace_na</span>(value, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-32"><a href="#cb7-32"></a>        <span class="co"># split combination value over standard isic codes in isiccomb group</span></span>
+<span id="cb7-33"><a href="#cb7-33"></a>        <span class="fu">summarise</span>(</span>
+<span id="cb7-34"><a href="#cb7-34"></a>            <span class="at">avg.value =</span> <span class="fu">mean</span>(value),</span>
+<span id="cb7-35"><a href="#cb7-35"></a>            <span class="do">## checking variables</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a>            <span class="at">n_isic =</span> <span class="fu">n_distinct</span>(isic),</span>
+<span id="cb7-37"><a href="#cb7-37"></a>            <span class="at">n_rows =</span> <span class="fu">n</span>()</span>
+<span id="cb7-38"><a href="#cb7-38"></a>        ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-39"><a href="#cb7-39"></a>        <span class="fu">mutate</span>(<span class="at">row_check =</span> (n_isic <span class="sc">==</span> n_rows))</span>
+<span id="cb7-40"><a href="#cb7-40"></a></span>
+<span id="cb7-41"><a href="#cb7-41"></a>    <span class="co">#  return(interim$isiccomb.avg)</span></span>
+<span id="cb7-42"><a href="#cb7-42"></a></span>
+<span id="cb7-43"><a href="#cb7-43"></a>    <span class="do">## check n_isic == n_rows</span></span>
+<span id="cb7-44"><a href="#cb7-44"></a>    <span class="fu">test_that</span>(<span class="st">"isiccomb split average is calculated with correct denominator"</span>, {</span>
+<span id="cb7-45"><a href="#cb7-45"></a>        <span class="fu">expect_true</span>(<span class="fu">all</span>(interim<span class="sc">$</span>isiccomb.avg<span class="sc">$</span>row_check))</span>
+<span id="cb7-46"><a href="#cb7-46"></a>    })</span>
+<span id="cb7-47"><a href="#cb7-47"></a></span>
+<span id="cb7-48"><a href="#cb7-48"></a>    <span class="co"># output processed data</span></span>
+<span id="cb7-49"><a href="#cb7-49"></a>    final <span class="ot">&lt;-</span></span>
+<span id="cb7-50"><a href="#cb7-50"></a>        <span class="fu">left_join</span>(threefour_df, interim<span class="sc">$</span>isiccomb.avg, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"year"</span>, <span class="st">"isiccomb"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-51"><a href="#cb7-51"></a>        <span class="fu">rename</span>(<span class="at">value.nosplit =</span> value) <span class="sc">%&gt;%</span></span>
+<span id="cb7-52"><a href="#cb7-52"></a>        <span class="fu">mutate</span>(</span>
+<span id="cb7-53"><a href="#cb7-53"></a>            <span class="at">value =</span> <span class="fu">coalesce</span>(avg.value, value.nosplit),</span>
+<span id="cb7-54"><a href="#cb7-54"></a>            <span class="at">split.isiccomb =</span> <span class="sc">!</span><span class="fu">is.na</span>(avg.value)</span>
+<span id="cb7-55"><a href="#cb7-55"></a>        ) <span class="sc">%&gt;%</span></span>
+<span id="cb7-56"><a href="#cb7-56"></a>        <span class="fu">select</span>(country, year, isic, isiccomb, value, value.nosplit, split.isiccomb) <span class="co"># not checking variables</span></span>
+<span id="cb7-57"><a href="#cb7-57"></a></span>
+<span id="cb7-58"><a href="#cb7-58"></a>    <span class="fu">return</span>(final)</span>
+<span id="cb7-59"><a href="#cb7-59"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-14-1.png" width="960"></p>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>We can use <em>Quantitative User Study Experiments</em> to explore:</p>
+<div class="smaller">
+<ul>
+<li class="fragment">Which representations of transformation logic are best for <strong>communicating</strong> data preprocessing decisions?</li>
+<li class="fragment">Are <strong>crossmap</strong> visualisations more easily interpreted than <strong>code</strong> or <strong>table</strong> representations?</li>
+<li class="fragment">Does effectiveness differ by <strong>audience</strong> (e.g.&nbsp;replication, peer-review, non-technical domain experts)?</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="thanks-any-questions" class="slide level2">
+<h2>Thanks! Any Questions?</h2>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Final remarks</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Ex-Post Harmonisation is a complex form of data imputation!</li>
+<li>Visualisation can be used to communicate important data preprocessing decisions</li>
+<li>Designing visualisations can also lead to new statistical insights</li>
+<li>I’m looking for (imputation) <strong>case studies</strong> and (comprehension) <strong>experiment participants</strong>!</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Useful links</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>More details on crossmaps and visualising them: <a href="https://arxiv.org/abs/2308.06535">arxiv.org/abs/2308.06535</a></li>
+<li>{xmap} package (work in progress): <a href="https://github.com/cynthiahqy/xmap">github.com/cynthiahqy/xmap</a></li>
+<li>Slides: <a href="https://cynthiahuang.quarto.pub/iasc-asr-vis-cat">cynthiahuang.quarto.pub/iasc-asr-vis-cat</a></li>
+<li>Find me at: <a href="https://cynthiahqy.com">cynthiahqy.com</a>, <a href="https://twitter/cynthiahqy">@cynthiahqy</a> and <em>cynthia.huang[at]monash.edu</em></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="references-acknowledgements" class="slide level2 smaller scrollable">
+<h2>References &amp; Acknowledgements</h2>
+<h3 id="references">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-hulligerLinkingClassificationsLinear1998" class="csl-entry" role="listitem">
+Hulliger, Beat. 1998. <span>“Linking of <span>Classifications</span> by <span>Linear Mappings</span>.”</span> <em>Journal of Official Statistics</em> 14 (January): 255–66.
+</div>
+<div id="ref-kolczynskaCombiningMultipleSurvey2022" class="csl-entry" role="listitem">
+Kołczyńska, Marta. 2022. <span>“Combining Multiple Survey Sources: <span>A</span> Reproducible Workflow and Toolbox for Survey Data Harmonization.”</span> <em>Methodological Innovations</em> 15 (1): 62–72. <a href="https://doi.org/10.1177/20597991221077923">https://doi.org/10.1177/20597991221077923</a>.
+</div>
+<div id="ref-zhouMatrixMultiplicationSQL2020" class="csl-entry" role="listitem">
+Zhou, Xiantian, and Carlos Ordonez. 2020. <span>“Matrix <span>Multiplication</span> with <span>SQL Queries</span> for <span>Graph Analytics</span>.”</span> In <em>2020 <span>IEEE International Conference</span> on <span>Big Data</span> (<span>Big Data</span>)</em>, 5872–73. <span>Atlanta, GA, USA</span>: <span>IEEE</span>. <a href="https://doi.org/10.1109/BigData50022.2020.9378275">https://doi.org/10.1109/BigData50022.2020.9378275</a>.
+</div>
+</div>
+<h3 id="acknowledgements">Acknowledgements</h3>
+<p><span class="smaller">Thank you to Laura Puzzello for her ongoing support and funding of earlier iterations of this work. Many thanks also to Rob Hyndman, Sarah Goodwin, Simon Angus, Patrick Li, Emi Tanaka and my other colleagues at Monash EBS and Monash SoDa Labs for their helpful guidance, feedback and suggestions. The author is supported in part by top-up scholarships from Monash Data Futures Institute and the Statistical Society of Australia.</span></p>
+</section></section>
+<section>
+<section id="appendix" class="title-slide slide level1 center">
+<h1>Appendix</h1>
+
+</section>
+<section id="equivalent-representation-definitions" class="slide level2" data-visibilty="hidden">
+<h2>Equivalent Representation Definitions</h2>
 <p>Crossmaps can be represented or conceptualised in the following forms:</p>
 <div>
 <dl>
@@ -766,251 +1195,33 @@ Facilitates implementation of data transformations using database join, mutate a
           display:block!important;
       }</style></aside>
 </section>
-<section id="crossmaps-as-linear-mappings" class="slide level2">
-<h2>Crossmaps as Linear Mappings</h2>
-<div class="columns">
-<div class="column" style="padding: 0; margin: 0">
-<!--- control the white space around abc_matrix by specifying quarto fig dimensions --->
-<div class="cell" data-layout-align="center">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-6-1.png" width="576"></p>
-</figure>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<p><span class="citation" data-cites="hulligerLinkingClassificationsLinear1998">Hulliger (<a href="#/references-acknowledgements" role="doc-biblioref" onclick="">1998</a>)</span> formulates links between statistical classifications as linear mappings and shows:</p>
-<div>
-<ul>
-<li class="fragment">transforming data from one classification to another can be implemented as matrix multiplication.</li>
-<li class="fragment">multiple sequential classification changes can be described as matrix products.</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="data-transformation-using-crossmaps" class="slide level2">
-<h2>Data Transformation using Crossmaps</h2>
-<aside class="notes">
-<p>shows that matrix multiplication can be implemented using database join, mutate and summarise operations.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<p><span class="citation" data-cites="zhouMatrixMultiplicationSQL2020">Zhou and Ordonez (<a href="#/references-acknowledgements" role="doc-biblioref" onclick="">2020</a>)</span> shows that matrix multiplication can be implemented using database join, mutate and summarise operations. Thus implementation can be done as a two-input function:</p>
-<div class="fragment">
-<div class="cell columns column-output-location">
-<div class="column">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">apply_xmap</span>(<span class="at">.data =</span> anzsco22_stats,</span>
-<span id="cb3-2"><a href="#cb3-2"></a>           <span class="at">.xmap =</span> anzsco_xmap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div><div class="column">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 5 × 2
-  isco8 new_count
-  &lt;chr&gt;     &lt;dbl&gt;
-1 0110         40
-2 1111        460
-3 1112        500
-4 1114        500
-5 1120        500</code></pre>
-</div>
-</div>
-</div>
-</div>
+<section id="future-visualisation-work" class="slide level2" data-visibilty="uncounted">
+<h2>Future Visualisation Work</h2>
 <div class="smaller">
-<p><span class="fragment">Under the hood <code>apply_xmap</code>:</span></p>
-<ol type="1">
-<li class="fragment"><strong>Validates</strong> transformation logic</li>
-<li class="fragment">Checks the crossmap <strong>fully covers</strong> the source data taxonomy</li>
-<li class="fragment"><strong>Transforms</strong> the data according the crossmap logic</li>
-</ol>
-</div>
-</section>
-<section id="crossmap-visualisations-bi-graphs" class="slide level2">
-<h2>Crossmap Visualisations: Bi-Graphs</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="cell" data-layout-align="left">
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-8-1.png" width="576"></p>
-</figure>
-</div>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<p><span class="fragment">Key transformation attributes:</span></p>
-<div>
-<ul>
-<li class="fragment">split vs.&nbsp;not split:
-<ul>
-<li class="fragment">text style, line style, <strong>layout/ordering</strong></li>
-</ul></li>
-<li class="fragment">split proportion:
-<ul>
-<li class="fragment">text labels on links</li>
-</ul></li>
-<li class="fragment">target composition:
-<ul>
-<li class="fragment">line style, colour saturation, <strong>layout/ordering</strong></li>
-</ul></li>
-</ul>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="implications-future-work" class="title-slide slide level1 center">
-<h1>Implications &amp; Future Work</h1>
-<p>What else can the crossmap approach reveal or illuminate?</p>
-</section>
-<section id="effective-communication-of-preprocessing" class="slide level2">
-<h2>Effective Communication of Preprocessing</h2>
-<div class="columns v-center-container">
-<div class="column" style="width:50%;">
-<div class="cell">
-<div class="cell-output-display">
-<p><img data-src="slides_files/figure-revealjs/unnamed-chunk-10-1.png" width="960"></p>
-</div>
-</div>
-</div><div class="column" style="width:50%;">
-<div>
-<ul>
-<li class="fragment">Which representations of transformation logic are best for <strong>communicating</strong> data preprocessing decisions?</li>
-<li class="fragment">Are <strong>crossmap</strong> visualisations more easily interpreted than <strong>code</strong> or <strong>table</strong> representations?</li>
-<li class="fragment">Does effectiveness differ by <strong>audience</strong> (e.g.&nbsp;replication, peer-review, non-technical domain experts)?</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="understanding-data-imputation" class="slide level2">
-<h2>Understanding Data Imputation</h2>
-<aside class="notes">
-<ul>
-<li>when and where does the imputation occur?</li>
-<li>how much imputation occurs?</li>
-<li>solving the visualisation problem is akin to solving the imputation quantification problem</li>
-<li>Which transformed observations are less reliable?</li>
-</ul>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-<div class="columns">
-<div class="column" style="width:60%;">
-<div class="quarto-figure quarto-figure-left">
-<figure>
-<p><img data-src="images/isiccomb_rev3_TRUEonly.png"></p>
-</figure>
-</div>
-</div><div class="column" style="width:40%;">
-<div>
-<ul>
-<li class="fragment">Valid transformation logic doesn’t guarantee the quality or usability of transformed data</li>
-<li class="fragment">Crossmaps allow us to <strong>visualise</strong> the extent of data imputation and <strong>quantify</strong> the degree of imputation</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="thanks-any-questions" class="slide level2">
-<h2>Thanks! Any Questions?</h2>
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Final remarks</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li>Visualisation can be used to communicate complex data wrangling decisions</li>
-<li>Designing visualisations can lead to surprising statistical insights</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Useful links</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li>Working paper on visualising crossmaps: <a href="https://arxiv.org/abs/2308.06535" class="uri">https://arxiv.org/abs/2308.06535</a></li>
-<li>interest sign-up</li>
-<li>Slides:</li>
-<li>slides + github repo</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="references-acknowledgements" class="slide level2 smaller scrollable">
-<h2>References &amp; Acknowledgements</h2>
-<h3 id="references">References</h3>
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-hulligerLinkingClassificationsLinear1998" class="csl-entry" role="listitem">
-Hulliger, Beat. 1998. <span>“Linking of <span>Classifications</span> by <span>Linear Mappings</span>.”</span> <em>Journal of Official Statistics</em> 14 (January): 255–66.
-</div>
-<div id="ref-kolczynskaCombiningMultipleSurvey2022" class="csl-entry" role="listitem">
-Kołczyńska, Marta. 2022. <span>“Combining Multiple Survey Sources: <span>A</span> Reproducible Workflow and Toolbox for Survey Data Harmonization.”</span> <em>Methodological Innovations</em> 15 (1): 62–72. <a href="https://doi.org/10.1177/20597991221077923">https://doi.org/10.1177/20597991221077923</a>.
-</div>
-<div id="ref-zhouMatrixMultiplicationSQL2020" class="csl-entry" role="listitem">
-Zhou, Xiantian, and Carlos Ordonez. 2020. <span>“Matrix <span>Multiplication</span> with <span>SQL Queries</span> for <span>Graph Analytics</span>.”</span> In <em>2020 <span>IEEE International Conference</span> on <span>Big Data</span> (<span>Big Data</span>)</em>, 5872–73. <span>Atlanta, GA, USA</span>: <span>IEEE</span>. <a href="https://doi.org/10.1109/BigData50022.2020.9378275">https://doi.org/10.1109/BigData50022.2020.9378275</a>.
-</div>
-</div>
-<h3 id="acknowledgements">Acknowledgements</h3>
-<p><span class="smaller">Thank you to Laura Puzzello for her ongoing support and funding of earlier iterations of this work. Many thanks also to Rob Hyndman, Sarah Goodwin, Simon Angus, Patrick Li, Emi Tanaka and my other colleagues at Monash EBS and Monash SoDa Labs for their helpful guidance, feedback and suggestions. The author is supported in part by top-up scholarships from Monash Data Futures Institute and the Statistical Society of Australia.</span></p>
-</section></section>
-<section>
-<section id="appendix" class="title-slide slide level1 center">
-<h1>Appendix</h1>
-
-</section>
-<section id="discussion" class="slide level2">
-<h2>Discussion</h2>
-<div>
-<ul>
-<li class="fragment"><strong>Why abstract (and visualise) cross-taxonomy transformations?</strong>
-<ul>
-<li class="fragment">Document data provenance at task level rather than dataset level</li>
-<li class="fragment">Validate data quality. Audit and reuse data wrangling code</li>
-<li class="fragment">Explore statistical properties and imputation metrics</li>
-</ul></li>
-<li class="fragment"><strong>How to scale up via existing graph and visualisation idioms?</strong>
+<!-- - **Why abstract (and visualise) cross-taxonomy transformations?**
+  - Document data provenance at task level rather than dataset level
+  - Validate data quality. Audit and reuse data wrangling code
+  - Explore statistical properties and imputation metrics -->
+<h4 id="scaling-to-larger-crossmaps-via-existing-graph-visualisation-tools-and-idioms">Scaling to larger crossmaps via existing graph visualisation tools and idioms</h4>
 <ul>
 <li class="fragment">Interactivity (e.g.&nbsp;tooltips for category description labels)</li>
 <li class="fragment">Filter by graph properties (e.g.&nbsp;leave out one-to-unique links)</li>
-<li class="fragment">Aggregate/Collapse/Embed sub-graphs (e.g.&nbsp;one-to-shared links) or sequential/concurrent transformations</li>
-</ul></li>
+</ul>
+<h4 id="visualising-multiple-related-crossmaps">Visualising multiple related crossmaps?</h4>
+<ul>
+<li class="fragment">Multiple crossmaps simultaneously (e.g.&nbsp;for multiple countries in the same year)</li>
+<li class="fragment">Multiple crossmaps sequentially (e.g.&nbsp;for multiple years)</li>
+<li class="fragment">Aggregate/Collapse/Embed sub-graphs (e.g.&nbsp;one-to-shared links)</li>
+</ul>
+<h4 id="visualising-imputation-extent-and-degree-on-actual-data">Visualising imputation extent and degree on actual data?</h4>
+<ul>
+<li class="fragment">Visualise the <strong>imputation extent</strong> (i.e.&nbsp;proportion of data transformed) and <strong>imputation degree</strong> (i.e.&nbsp;redistribution vs.&nbsp;aggregation vs.&nbsp;renaming)</li>
+<li class="fragment">Compare different transformation logics (e.g.&nbsp;different crossmaps) on the same data</li>
 </ul>
 </div>
 </section>
-<section id="cross-taxonomy-transformation-via-database-operations" class="slide level2">
-<h2>Cross-taxonomy transformation via database operations</h2>
+<section id="data-transformation-using-crossmaps-23" class="slide level2">
+<h2>Data Transformation using Crossmaps <span class="f50">2/3</span></h2>
 <ul>
 <li>Transformations always involves <strong>recoding category labels</strong>:
 <ul>
@@ -1024,8 +1235,8 @@ Zhou, Xiantian, and Carlos Ordonez. 2020. <span>“Matrix <span>Multiplication</
 </ul></li>
 </ul>
 </section>
-<section id="cross-taxonomy-transformation-via-database-operations-1" class="slide level2">
-<h2>Cross-taxonomy transformation via database operations</h2>
+<section id="data-transformation-using-crossmaps-23-1" class="slide level2">
+<h2>Data Transformation using Crossmaps <span class="f50">2/3</span></h2>
 <p>We can encompass the string and numeric operations in the following tabular operations:</p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -1037,23 +1248,23 @@ Zhou, Xiantian, and Carlos Ordonez. 2020. <span>“Matrix <span>Multiplication</
 </ol>
 </div>
 <div class="cell quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="3-6|7|8,9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="do">## mock up of apply_xmap()</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>apply_xmap <span class="ot">&lt;-</span> <span class="cf">function</span>(.data, .xmap) {</span>
-<span id="cb5-3"><a href="#cb5-3"></a>    dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
-<span id="cb5-4"><a href="#cb5-4"></a>        <span class="at">x =</span> .data,</span>
-<span id="cb5-5"><a href="#cb5-5"></a>        <span class="at">y =</span> .xmap,</span>
-<span id="cb5-6"><a href="#cb5-6"></a>        <span class="at">by =</span> <span class="st">"anzsco22"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">part_count =</span> count <span class="sc">*</span> weights) <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a>        dplyr<span class="sc">::</span><span class="fu">group_by</span>(isco8) <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a>        dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">new_count =</span> <span class="fu">sum</span>(part_count))</span>
-<span id="cb5-10"><a href="#cb5-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8" data-code-line-numbers="3-6|7|8,9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="do">## mock up of apply_xmap()</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>apply_xmap <span class="ot">&lt;-</span> <span class="cf">function</span>(.data, .xmap) {</span>
+<span id="cb8-3"><a href="#cb8-3"></a>    dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb8-4"><a href="#cb8-4"></a>        <span class="at">x =</span> .data,</span>
+<span id="cb8-5"><a href="#cb8-5"></a>        <span class="at">y =</span> .xmap,</span>
+<span id="cb8-6"><a href="#cb8-6"></a>        <span class="at">by =</span> <span class="st">"anzsco22"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a>        dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">part_count =</span> count <span class="sc">*</span> weights) <span class="sc">|&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>        dplyr<span class="sc">::</span><span class="fu">group_by</span>(isco8) <span class="sc">|&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>        dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">new_count =</span> <span class="fu">sum</span>(part_count))</span>
+<span id="cb8-10"><a href="#cb8-10"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 <!-- > Tackling domain applications via mathematical abstractions can create useful derived data for visual encoding
 > Information visualisation can be used to expore and communicate complex data wrangling decisions -->
 <div class="footer footer-default">
-
+<p><a href="https://cynthiahuang.quarto.pub/iasc-asr-vis-cat">cynthiahuang.quarto.pub/iasc-asr-vis-cat</a></p>
 </div>
 </section></section>
     </div>
