@@ -290,8 +290,6 @@ abc_matrix +
         legend.position = "none")
 ```
 
-<!-- conditional on coord-fixed; panels fill the fig size (centered vert&hori (check this)) -->
-
 :::
 
 ::: {.column width="33%"}
