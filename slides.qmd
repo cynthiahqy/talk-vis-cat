@@ -1,12 +1,12 @@
 ---
 title: "Visualising Category Recoding and Redistributions"
-subtitle: "Workshop on Visualization and Provenance Across Domains at IEEE VIS on Oct 22, 2023"
+subtitle: "IASC-ASR 2023, Macquarie University, Sydney"
 author: 
  - name: "Cynthia A. Huang"
    email: "cynthia.huang@monash.edu"
    affiliation:
     - "Department of Econometrics and Business Statistics, Monash University"
-    - "supervised by Prof. Rob J Hyndman and Dr. Sarah Goodwin"
+    - "supervised by Rob J Hyndman, Sarah Goodwin and Simon Angus"
 doi: "arXiv:2308.06535"
 bibliography: references.bib
 format: 
@@ -27,40 +27,83 @@ filters:
   - include-code-files
 ---
 
-## Overview
+## Overview {.smaller}
+
+### Background & Motivation
+
+- Ex-Post Harmonisation
+- Occupation Codes (ANZSCO22) Example
+
+### Proposed Task Abstraction & Visualisation
+  
+- Cross-Taxonomy Transformation and Crossmaps
+- Crossmap Visualisations
+  
+### Implications and Future Work
+
+- Validate **data quality** and document **preprocessing decisions**
+- Explore **imputation properties**
+
+# Background & Motivation
+
+When do we encounter **category recoding and redistribution**?
+
+## Ex-Post Harmonisation [1/2]{.f50}
 
 ::: {.columns .v-center-container}
-::: {.column width="33.33%"}
 
-[Domain Context]{.overview-text}
-![](images/icon-official-stats.png){fig-align="center" height=300px}
+::: {.column width="45%"}
 
-[Official Statistics+]{.fragment .overview-text}
+> Ex-post (or retrospective) data harmonization refers to **procedures applied to already collected data to improve the comparability** and inferential equivalence of measures from different studies [@kolczynskaCombiningMultipleSurvey2022]
+
 :::
 
-::: {.column width="33.33%"}
-[Task Abstraction]{.overview-text}
-![](images/icon-database.png){fig-align="center" height=300px}
+::: {.column width="55%"}
 
-[Data Wrangling]{.fragment .overview-text}
-:::
+![Procedures in ex-post harmonisation](images/diagram_expost-tasks.png){#fig-expost-tasks fig-align="center"}
 
-::: {.column width="33.33%"}
-[Encoding Design^[Munzner, Tamara. "A nested model for visualization design and validation." IEEE transactions on visualization and computer graphics 15.6 (2009): 921-928.]]{.overview-text}
-![](images/icon-IEEE-VIS.png){fig-align="center" height=300px}
-
-[Bi-graph Visualisation]{.fragment .overview-text}
 :::
 
 :::
 
-<!-- [spacer]{style="visibility: hidden; transform: rotate(90deg);"} -->
+## Ex-Post Harmonisation [2/2]{.f50}
 
+::: {.columns .v-center-container}
+::: {.fragment .column width="33%"}
+![](images/icon-official-stats.png){fig-align="center" height=200px style="margin: 0; padding: 0; "}
 
+*Defining or selecting mappings between classifications or taxonomies,*
+:::
 
-# Domain Context
+::: {.fragment .column width="33%"}
+![](images/icon-database.png){fig-align="center" height=200px style="margin: 0; padding: 0; "}
 
-## Ex-Post Harmonisation (a non-technical definition)
+Implementing and validating mappings on given data,
+:::
+
+::: {.fragment .column width="33%"}
+![](images/icon-IEEE-VIS.png){fig-align="center" height=200px style="margin: 0; padding: 0; "}
+
+**Documenting and communicating the chosen data transformations**.
+:::
+:::
+
+::: notes
+- **Common (and time-consuming) task** in social science research
+- Downstream **analysis results depend on category mapping decisions**, but this is not currently systematically explored
+- Ex-Post Harmonisation is **complex data imputation** disguised as data pre-processing drudgery
+:::
+
+## Example Harmonisation [1/3]{.f50}
+
+Typical cases: **labour statistics**, macroeconomic and trade data, census and election data.
+
+::: notes
+involve different nomenclature/taxonomies across space and/or time:
+-   **Labour Statistics:** adding and deleting occupation codes
+-   **Macroeconomic and Trade Data:** evolving product/industry classifications; changing country boundaries
+-   **Census and Election Data:** changing statistical survey or electoral boundaries
+:::
 
 ```{r}
 #| label: set-up-anzsco
@@ -69,43 +112,66 @@ filters:
 #| file: includes/anzsco-example.R
 ```
 
-- Combining **semantically related** data collected under **different taxonomies** into a single analysis dataset.
-
-. . .
-
-::: {.smaller}
 ```{r}
-## stylised occupation counts 
-## from total of 2000 observed individuals
-dplyr::left_join(table_anzsco, anzsco22_stats) |> 
-  kableExtra::kable()
+#| label: tbl-stylised-anzsco-data
+#| tbl-cap: "Stylised ANZSCO22 occupation counts from total of 2000 observed individuals"
+dplyr::left_join(table_anzsco, anzsco22_stats) |>
+  kableExtra::kable() |>
+  kableExtra::kable_styling(font_size = 30)
+```
+
+## Example Harmonisation [2/3]{.f50}
+
+-   Data collected using the **Australian and New Zealand Standard Classification of Occupations (ANZSCO)** is not directly comparable with other countries
+- Harmonise using the **International Standard Classification of Occupations (ISCO)**.
+
+::: {.fragment layout-ncol="2"}
+```{r}
+table_anzsco
+```
+
+```{r}
+table_isco8
 ```
 :::
 
-<!-- - Involves different taxonomies across observational units (space, time etc.) -->
-<!-- - Examples from Official Statistics:
-  -   **Labour Statistics:** adding and deleting occupation codes
-  -   **Census and Election Data:** changing statistical survey areas or electoral boundaries -->
+## Example Harmonisation [3/3]{.f50}
 
-<!-- > Ex-post (or retrospective) data harmonization refers to procedures applied to already collected data to improve the comparability and inferential equivalence of measures from different studies [@kolczynska2022; @fortierMaelstromResearchguidelines2016; @ehlingHarmonisingDataOfficial2003] -->
+::: {.columns .v-center-container}
+::: {.column width="45%"}
+![Augmented extract from ABS ANZSCO22-ISCO8 crosswalk](images/plot-anzsco-isco-bigraph-only.png){#fig-anzsco-isco-bigraph}
+:::
+::: {.column width="55%"}
 
-## Why Ex-Post Harmonisation? {visibility="hidden"}
+[Possible "relations" from **source** ANZSCO22 to **target** ISCO8 codes]{.fragment}
 
-![](images/3MT-slide-final-faculty.png){fig-align="center"}
-
-::: notes
-- **Common (and time-consuming) task** in social science research
-- Downstream **analysis results depend on category mapping decisions**, but this is not currently systematically explored
-- Ex-Post Harmonisation is **complex data imputation** disguised as data pre-processing drudgery
+:::{.incremental}
+- *from-***one-to-one*****-unique***: renaming (e.g. middle link)
+- *from-***one-to-one*****-shared*** aggregation (e.g. bottom three links)
+- *from-***one-to-many** disambiguation or redistribution (e.g. top links)
 :::
 
-# Task Abstraction
+:::
+:::
 
-## Cross-Taxonomy Transformations
+# Proposed Task Abstraction & Visualisation
 
-![](images/diagram_expost-tasks.png){fig-align="center"}
+What are the important features of the data transformation task?
 
-## Existing Approaches
+## Cross-Taxonomy Transformation
+
+::: callout-note
+## A Working Definition
+Taking data collected under a **source taxonomy**, and transforming them into “counter-factual” observations **indexed by a target taxonomy**.
+:::
+
+:::{.incremental}
+-   **Source/Target Taxonomy:** a set of classification codes or categories
+-   **Taxonomy Indexed Values**: a set of (numeric) values indexed by a taxonomy
+-   **Observation:** A set of taxonomy indexed values for a given unit of observation (e.g. @tbl-stylised-anzsco-data represents the country, year `AUS-2022`)
+:::
+
+## Existing Implementations
 
 ::: notes
 before / after approach
@@ -113,105 +179,27 @@ before / after approach
 
 ::: {.columns}
 ::: {.column width="45%"}
-![](images/diagram-data-transform-script-v2.png){fig-align="center" height=400px style="margin: 0; padding: 0; "}
+![](images/diagram-data-transform-script-v2.png){fig-align="center" style="margin: 0; padding: 0; "}
 
-::: incremental
-
-- idiosyncratic coding scripts
-- ad-hoc validation
-
-::: 
 :::
 ::: {.column width="55%"}
 ::: {.fragment}
 
-```{.r}
-split_isiccomb <- function(threefour_df){
-  #' Helper function to split isiccomb values across isic codes
-  #' @param threefour_df df with 3/4 digit values across isic & isiccomb
-  
-  # make list for interim tables
-  interim <- list()
-  
-  # extract rows with isiccomb codes
-  interim$isiccomb.rows <- 
-    threefour_df %>%
-    filter(., str_detect(isiccomb, '[:alpha:]'))
-  
-  # test that we are not losing any data through spliting
-  test_that("No `country,year` has more than one recorded `value` per `isiccomb` group", {
-    rows_w_many_values_per_isiccomb <- 
-      interim$isiccomb.rows %>%
-      group_by(country, year, isiccomb) %>%
-      ## get  no of recorded (not NA) values for given `country, year, isiccomb` 
-      summarise(n_obs = sum(!is.na(value))) %>% 
-      filter(n_obs != 1) %>%
-      nrow()
-    expect_true(rows_w_many_values_per_isiccomb == 0)
-  })
-  
-  # calculate average value over isiccomb group for each country, year
-  interim$isiccomb.avg <- 
-    interim$isiccomb.rows %>%
-    # group isiccomb rows, replace na with 0 for averaging
-    group_by(country, year, isiccomb) %>%
-    mutate(value = replace_na(value,0)) %>%
-    # split combination value over standard isic codes in isiccomb group
-    summarise(avg.value = mean(value),
-              ## checking variables
-              n_isic = n_distinct(isic),
-              n_rows = n()) %>%
-    mutate(row_check = (n_isic == n_rows))
-  
-  #  return(interim$isiccomb.avg)
-  
-  ## check n_isic == n_rows
-  test_that("isiccomb split average is calculated with correct denominator", {
-    expect_true(all(interim$isiccomb.avg$row_check))
-  })
-  
-  # output processed data
-  final <-
-    left_join(threefour_df, interim$isiccomb.avg, by = c('country', 'year', 'isiccomb')) %>%
-    rename(value.nosplit = value) %>%
-    mutate(value = coalesce(avg.value, value.nosplit),
-           split.isiccomb = !is.na(avg.value)) %>%
-    select(country, year, isic, isiccomb, value, value.nosplit, split.isiccomb) # not checking variables
-  
-  return(final)
-}
-```
+Given a defined mapping, we still need to **implement** the transformation.
+
+::: incremental
+- idiosyncratic coding scripts
+- re-use limited by script readability and language
+- ad-hoc and incomplete quality validation
+
+::: 
+
 :::
 
 :::
 :::
 
-## Aside on discipline silos
-
-::: columns
-::: {.column .smaller width="50%"}
-> Of course, **some desired integrations are simply unattainable.** Consider changes to category schemas … the North American Industrial Classification System (NAICS) … replaced the previously used (and increasingly antiquated) Standard Industrial Code (SIC). The dramatic reorganization … leaves them nearly incomparable … **Sometimes there is a limit to what one can wrangle. **^[Kandel et al. (2011). **Research directions in data wrangling: Visualizations and transformations for usable and credible data.** *Information Visualization*, 10(4), 271-288.]
-
-::: {.fragment}
-Did Schott and Pierce do the unattainable?
-:::
-
-:::
-
-::: {.column width="50%"}
-
-::: {.fragment}
-
-``` {.stata include="includes/schott_algorithm_28.do" filename="schott_algorithm_28.do [800+ lines]"}
-```
-:::
-
-:::
-:::
-
-# Proposed Contributions
-
-## Proposed Crossmaps Approach
+## Improved Implementation: Crossmaps
 
 ```{r}
 #| label: setup-simple-xmap
@@ -222,43 +210,130 @@ Did Schott and Pierce do the unattainable?
 
 ::: {.columns}
 ::: {.column width="45%"}
-![](images/diagram-data-transform-xmap-v2.png){fig-align="center" height=400px style="margin: 0; padding: 0"}
+![](images/diagram-data-transform-xmap-v2.png){fig-align="center" style="margin-top: 1em; padding: 0"}
+:::
+
+::: {.column width="55%"}
+
+We define a new information structure, the **crossmap**, to encapsulate transformation logic:
 
 :::{.incremental}
 
-- standardised mapping object
-- validate via graph properties
+- separates mapping specification from implementation
+- validate via graph properties rather than code review
+- examine and **visualise** matrix, table, or node-link graph representations
 
 ::: 
+
+:::
 :::
 
-::: {.column width="55%"}
+## Equivalent Representations
+
+Crossmaps can be represented or conceptualised in the following forms:
 
 :::{.incremental}
 
-[Equivalent representations:]{.fragment}
+**Weighted Bi-Partite Graph**
+: Edge weights represent the proportion of source node value to be redistributed to target node.
 
-- **Bi-Partite Graph**: source nodes, target nodes + weighted edges
+**Linear Mapping / Bi-Adjacency Matrix**
+: Makes explicit non-correspondence between source-target pairs (represented as zeroes). The transformation matrix has the same constraints as a Markov chain transition matrix. 
 
-- **Adjacency Matrix**: has the same constraints as a markov chain transition matrix
+**Edge List Table / Adjacency List**
+: Facilitates implementation of data transformations using database join, mutate and summarise operations.
 
-- **Edge List**: apply transformation using database join, mutate and summarise operations.
 
+:::
+
+::: notes
+[Each form has advantages and disadvantages for examining and implementing cross-taxonomy transformations and ex-post harmonisation.]{.fragment}
+:::
+
+## Crossmaps as Linear Mappings
+
+::: columns
+::: {.column width="50%" style="padding: 0; margin: 0"}
+
+<!--- control the white space around abc_matrix by specifying quarto fig dimensions --->
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-height: 6
+#| fig-width: 6
+abc_matrix +
+  theme(axis.text = element_text(size = 20))
+```
+
+:::
+
+::: {.column width="50%"}
+
+@hulligerLinkingClassificationsLinear1998 formulates links between statistical classifications as linear mappings and shows:
+
+::: incremental
+- transforming data from one classification to another can be implemented as matrix multiplication.
+- multiple sequential classification changes can be described as matrix products.
 :::
 
 :::
 :::
 
 
-## Proposed visualisation (and encodings)
+## Data Transformation using Crossmaps
 
-::: {.columns}
-::: {.column width="45%"}
-![](images/plot-anzsco-isco-bigraph.png)
+::: notes
+ shows that matrix multiplication can be implemented using database join, mutate and summarise operations.
 :::
-::: {.column width="55%"}
 
-[Highlight transformation attributes:]{.fragment}
+@zhouMatrixMultiplicationSQL2020 shows that matrix multiplication can be implemented using database join, mutate and summarise operations. Thus implementation can be done as a two-input function:
+
+::: {.fragment}
+```{r}
+#| echo: true
+#| output-location: column
+apply_xmap(.data = anzsco22_stats,
+           .xmap = anzsco_xmap)
+```
+:::
+
+::: {.incremental .smaller}
+
+[Under the hood `apply_xmap`:]{.fragment}
+
+1. **Validates** transformation logic
+2. Checks the crossmap **fully covers** the source data taxonomy
+3. **Transforms** the data according the crossmap logic
+:::
+
+
+## Crossmap Visualisations: Bi-Graphs
+
+::: columns
+::: {.column width="50%"}
+
+```{r}
+#| echo: false
+#| fig-align: left
+#| fig-height: 6
+#| fig-width: 6
+abc_bigraph +
+  theme_minimal(
+      base_size = 30
+    ) +
+  theme(
+    legend.position = "bottom",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank())
+```
+
+:::
+::: {.column width=50%}
+
+[Key transformation attributes:]{.fragment}
 
 :::{.incremental}
 - split vs. not split: 
@@ -268,9 +343,119 @@ Did Schott and Pierce do the unattainable?
 - target composition:
   - line style, colour saturation, **layout/ordering**
 :::
+:::
+:::
+
+# Implications & Future Work
+
+What else can the crossmap approach reveal or illuminate?
+
+## Effective Communication of Preprocessing
+
+::: {.columns .v-center-container}
+::: {.column width="50%"}
+
+```{r}
+#| echo: false
+#| code-line-numbers: "4-9"
+#| fig-width: 4
+#| fig-height: 4
+
+## simple stylized xmap
+simple_xmap <- xmap::mock$xmap_abc
+
+## autoplot
+library(xmap)
+library(ggraph)
+library(ggplot2)
+simple_bigraph <- simple_xmap |>
+    autoplot() +
+    theme_minimal(
+      base_size = 45
+    ) +
+  theme(
+    legend.position = "bottom",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank())
+
+## summary table
+simple_sum_table <- simple_xmap |>
+    summary_by_target(collapse = ", ") |>
+    dplyr::rename(target = upper) #|>
+    # kableExtra::kable() |>
+    # kableExtra::kable_styling(font_size = 25)
+```
+
+```{r}
+library(patchwork)
+library(gridExtra)
+simple_bigraph + tableGrob(simple_sum_table,
+theme = ttheme_default(base_size = 25)
+)
+```
 
 :::
+
+::: {.column width=50%}
+::: incremental
+- Which representations of transformation logic are best for **communicating** data preprocessing decisions?
+- Are **crossmap** visualisations more easily interpreted than **code** or **table** representations?
+- Does effectiveness differ by **audience** (e.g. replication, peer-review, non-technical domain experts)?
 :::
+:::
+:::
+
+## Understanding Data Imputation
+
+::: notes
+- when and where does the imputation occur?
+- how much imputation occurs?
+- solving the visualisation problem is akin to solving the imputation quantification problem
+- Which transformed observations are less reliable?
+:::
+
+::: columns
+::: {.column width="60%"}
+![](images/isiccomb_rev3_TRUEonly.png){fig-align="left"}
+:::
+
+::: {.column width="40%"}
+:::{.incremental}
+- Valid transformation logic doesn't guarantee the quality or usability of transformed data
+- Crossmaps allow us to **visualise** the extent of data imputation and **quantify** the degree of imputation
+:::
+:::
+:::
+
+## Thanks! Any Questions?
+
+::: {.callout-tip}
+## Final remarks
+- Visualisation can be used to communicate complex data wrangling decisions
+- Designing visualisations can lead to surprising statistical insights
+:::
+
+::: {.callout-note}
+## Useful links
+  - Working paper on visualising crossmaps: <https://arxiv.org/abs/2308.06535>
+  - Interest sign-up
+  - Slides:
+:::
+
+## References & Acknowledgements
+
+### References
+::: {#refs}
+:::
+
+### Acknowledgements
+
+[Thank you to Laura Puzzello for her ongoing support and funding of earlier iterations of this work. Many thanks also to Rob Hyndman, Sarah Goodwin, Simon Angus, Patrick Li, Emi Tanaka and my other colleagues at Monash EBS and Monash SoDa Labs for their helpful guidance, feedback and suggestions. The author is supported in part by top-up scholarships from Monash Data Futures Institute and the Statistical Society of Australia.]{.smaller}
+
+
+# Appendix
 
 ## Discussion
 
@@ -286,22 +471,6 @@ Did Schott and Pierce do the unattainable?
   - Filter by graph properties (e.g. leave out one-to-unique links)
   - Aggregate/Collapse/Embed sub-graphs (e.g. one-to-shared links) or sequential/concurrent transformations
   
-:::
-
-# Appendix
-
-## Current Work: Imputation metrics and imprints
-
-::: columns
-::: {.column width="60%"}
-![](images/isiccomb_rev3_TRUEonly.png){fig-align="left"}
-:::
-
-::: {.column width="40%"}
-- How much of an ex-post harmonised dataset is imputed?
-- Which transformed observations are less reliable?
-- Can we quantify the degree of imputation?
-:::
 :::
 
 ## Cross-taxonomy transformation via database operations
@@ -338,7 +507,6 @@ apply_xmap <- function(.data, .xmap) {
 }
 ```
 :::
-
 
 <!-- > Tackling domain applications via mathematical abstractions can create useful derived data for visual encoding
 > Information visualisation can be used to expore and communicate complex data wrangling decisions -->

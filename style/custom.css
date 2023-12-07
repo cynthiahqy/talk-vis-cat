@@ -53,3 +53,11 @@
       /* border: 1px solid green; */
     }
   }
+
+.f50 {
+  font-size: 50%;
+}
+
+#big-source-code {
+  font-size: 2em;
+}
