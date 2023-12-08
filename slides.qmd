@@ -23,7 +23,7 @@ format:
       data-background-position: "center"
     template-partials:
       - style/title-slide.html
-    footer: "[cynthiahuang.quarto.pub/iasc-asr-vis-cat](https://cynthiahuang.quarto.pub/iasc-asr-vis-cat)"
+    footer: "[cynthiahuang.quarto.pub/iasc-asr-23](https://cynthiahuang.quarto.pub/iasc-asr-23)"
 filters:
   - include-code-files
 ---
