@@ -1,6 +1,6 @@
 ---
-title: "Visualising Category Recoding and Redistributions"
-subtitle: "IASC-ASR 2023, Macquarie University, Sydney"
+title: "Let's use Graphs, Matrices and Edge Lists improve and illuminate Ex-Post Harmonisation Procedures"
+subtitle: "Crossmaps: A principled approach to ex-post data harmonisation and dataset integration"
 author: 
  - name: "Cynthia A. Huang"
    email: "cynthia.huang@monash.edu"
@@ -74,7 +74,7 @@ When do we encounter **category recoding and redistribution**?
 ::: {.fragment .column width="33%"}
 ![](images/icon-official-stats.png){fig-align="center" height=200px style="margin: 0; padding: 0; "}
 
-*Defining or selecting mappings between classifications or taxonomies,*
+Defining or selecting mappings between classifications or taxonomies,
 :::
 
 ::: {.fragment .column width="33%"}
@@ -86,7 +86,7 @@ Implementing and validating mappings on given data,
 ::: {.fragment .column width="33%"}
 ![](images/icon-IEEE-VIS.png){fig-align="center" height=200px style="margin: 0; padding: 0; "}
 
-**Documenting and analysing the implemented mappings**.
+Documenting and analysing the implemented mappings.
 :::
 :::
 
@@ -252,6 +252,9 @@ We define a new information structure, the **crossmap**, to encapsulate transfor
 A new information structure for specifying, validating, implementing and visualising cross-taxonomy transformations.
 
 ## Crossmaps: Equivalent Representations
+
+<!-- font-size: 32px;
+text-align: center; -->
 
 ::: {.columns}
 
@@ -608,16 +611,16 @@ We can encompass the string and numeric operations in the following tabular oper
 ```{r}
 #| eval: false
 #| echo: true
-#| code-line-numbers: "3-6|7|8,9"
-## mock up of apply_xmap()
+#| code-line-numbers: false
+
 apply_xmap <- function(.data, .xmap) {
-    dplyr::left_join(
+    left_join(
         x = .data,
         y = .xmap,
-        by = "anzsco22") |>
-        dplyr::mutate(part_count = count * weights) |>
-        dplyr::group_by(isco8) |>
-        dplyr::summarise(new_count = sum(part_count))
+        by = "source-taxonomy") |>
+    mutate(part_count = count * weights) |>
+    group_by(target_taxonomy) |>
+    summarise(final_count = sum(part_count))
 }
 ```
 :::
