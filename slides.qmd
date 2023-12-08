@@ -523,7 +523,7 @@ We can use *Quantitative User Study Experiments* to explore:
 ## Useful links
   - More details on crossmaps and visualising them: [arxiv.org/abs/2308.06535](https://arxiv.org/abs/2308.06535)
   - {xmap} package (work in progress): [github.com/cynthiahqy/xmap](https://github.com/cynthiahqy/xmap)
-  - Slides: [cynthiahuang.quarto.pub/iasc-asr-vis-cat](https://cynthiahuang.quarto.pub/iasc-asr-vis-cat)
+  - Slides: [cynthiahuang.quarto.pub/iasc-asr-23](https://cynthiahuang.quarto.pub/iasc-asr-23)
   - Find me at: [cynthiahqy.com](https://cynthiahqy.com), [\@cynthiahqy](https://twitter/cynthiahqy) and *cynthia.huang[at]monash.edu*
   
 :::
