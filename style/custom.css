@@ -1,12 +1,13 @@
 .v-center-container {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    height: 90%;
-  }
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+}
 
 .overview-text {
-  /*text-align: center; */ /* This is not working */
+  /*text-align: center; */
+  /* This is not working */
   font-size: 1em;
   font-weight: bold;
 }
@@ -25,7 +26,7 @@
 }
 
 #vcenter {
-  vertical-align: middle; 
+  vertical-align: middle;
 }
 
 .reveal #center {
@@ -37,7 +38,7 @@
   font-size: 0.8em;
 }
 
-#title-slide-text > .title {
+#title-slide-text>.title {
   font-size: 2em;
 }
 
