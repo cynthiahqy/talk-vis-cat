@@ -1,6 +1,6 @@
 ---
-title: "Let's use Graphs, Matrices and Edge Lists improve and illuminate Ex-Post Harmonisation Procedures"
-subtitle: "Crossmaps: A principled approach to ex-post data harmonisation and dataset integration"
+title: "Visualising Category Recoding and Redistributions"
+subtitle: "IASC-ASR 2023, Macquarie University, Sydney"
 author: 
  - name: "Cynthia A. Huang"
    email: "cynthia.huang@monash.edu"
@@ -74,7 +74,7 @@ When do we encounter **category recoding and redistribution**?
 ::: {.fragment .column width="33%"}
 ![](images/icon-official-stats.png){fig-align="center" height=200px style="margin: 0; padding: 0; "}
 
-Defining or selecting mappings between classifications or taxonomies,
+*Defining or selecting mappings between classifications or taxonomies,*
 :::
 
 ::: {.fragment .column width="33%"}
@@ -86,7 +86,7 @@ Implementing and validating mappings on given data,
 ::: {.fragment .column width="33%"}
 ![](images/icon-IEEE-VIS.png){fig-align="center" height=200px style="margin: 0; padding: 0; "}
 
-Documenting and analysing the implemented mappings.
+**Documenting and analysing the implemented mappings**.
 :::
 :::
 
@@ -253,9 +253,6 @@ A new information structure for specifying, validating, implementing and visuali
 
 ## Crossmaps: Equivalent Representations
 
-<!-- font-size: 32px;
-text-align: center; -->
-
 ::: {.columns}
 
 ::: {.column width="33%"}
@@ -314,9 +311,6 @@ abc_xmap |>
 
 ::: columns
 ::: {.column width="50%" style="padding: 0; margin: 0"}
-
-<!--- control the white space around abc_matrix by specifying quarto fig dimensions --->
-
 ```{r}
 #| echo: false
 #| fig-align: center
@@ -326,43 +320,35 @@ abc_matrix +
   theme(axis.text = element_text(size = 20),
         legend.position = "none")
 ```
-
 :::
-
 ::: {.column width="50%"}
-
 @hulligerLinkingClassificationsLinear1998 formulates links between statistical classifications as linear mappings and shows:
-
 ::: incremental
 - transforming data from one classification to another can be implemented as matrix multiplication.
 - multiple sequential classification changes can be described as matrix products.
 :::
-
 :::
 :::
-
 
 ## Data Transformation using Crossmaps
 
-::: notes
- shows that matrix multiplication can be implemented using database join, mutate and summarise operations.
-:::
-
 ::: columns
-::: {.column width="50%"}
-@zhouMatrixMultiplicationSQL2020 shows that matrix multiplication can be implemented using SQL operations on edge lists.
-
-::: {.incremental .smaller}
-
-[Thus implementation can be done as a two-input function which:]{.fragment}
+::: {.column width="75%"}
+@zhouMatrixMultiplicationSQL2020 shows that matrix multiplication can be implemented using SQL operations on edge lists. Thus implementation can be done as a two-input function which:
 
 1. **Validates** transformation logic
 2. Checks the crossmap **fully covers** the source data
 3. **Transforms** the data using join, mutate and summarise operations (see Appendix)
-:::
+
 :::
 
-::: {.column width="50%"}
+::: {.column width="25%"}
+```{r}
+#| echo: true
+#| code-line-numbers: false
+anzsco_xmap
+```
+
 
 ::: {.fragment}
 ```{r}
@@ -371,8 +357,18 @@ abc_matrix +
 anzsco22_stats
 ```
 :::
+:::
+:::
 
-::: {.fragment}
+## for images: anzsco example
+
+::: {.columns}
+
+::: {.column width=30%}
+nothing
+:::
+
+::: {.column .smaller width="35%"}
 ```{r}
 #| echo: true
 #| code-line-numbers: false
@@ -380,6 +376,20 @@ apply_xmap(.data = anzsco22_stats,
            .xmap = anzsco_xmap)
 ```
 :::
+
+::: {.column .smaller width="25%"}
+
+```{r}
+#| echo: true
+#| code-line-numbers: false
+anzsco_xmap
+```
+
+```{r}
+#| echo: true
+#| code-line-numbers: false
+anzsco22_stats
+```
 :::
 :::
 
@@ -524,12 +534,14 @@ We can use *Quantitative User Study Experiments* to explore:
 
 ::: {.callout-note}
 ## Useful links
-  - More details on crossmaps and visualising them: [arxiv.org/abs/2308.06535](https://arxiv.org/abs/2308.06535)
+  - More details on crossmaps and visualising them: [arxiv.org/abs/2308.06535](https://arxiv.org/abs/2308.06535) @huangVisualisingCategoryRecoding2023
   - {xmap} package (work in progress): [github.com/cynthiahqy/xmap](https://github.com/cynthiahqy/xmap)
   - Slides: [cynthiahuang.quarto.pub/iasc-asr-vis-cat](https://cynthiahuang.quarto.pub/iasc-asr-vis-cat)
   - Find me at: [cynthiahqy.com](https://cynthiahqy.com), [\@cynthiahqy](https://twitter/cynthiahqy) and *cynthia.huang[at]monash.edu*
   
 :::
+
+
 
 ## References & Acknowledgements
 
@@ -612,15 +624,15 @@ We can encompass the string and numeric operations in the following tabular oper
 #| eval: false
 #| echo: true
 #| code-line-numbers: false
-
+# mock-up of apply_xmap() function
 apply_xmap <- function(.data, .xmap) {
-    left_join(
-        x = .data,
-        y = .xmap,
-        by = "source-taxonomy") |>
-    mutate(part_count = count * weights) |>
-    group_by(target_taxonomy) |>
-    summarise(final_count = sum(part_count))
+  left_join(
+    x = .data,
+    y = .xmap,
+    by = "anzsco22") |>
+  mutate(part_count = count * weights) |>
+  group_by(isco8) |>
+  summarise(new_count = sum(part_count))
 }
 ```
 :::
